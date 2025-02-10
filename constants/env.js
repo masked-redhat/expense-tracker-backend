@@ -17,7 +17,7 @@ const MONGODB = {
 const REDIS = {
   CLIENT: "Redis",
   URI: process.env.REDIS_DB_URI,
-  DATABASE_NUM: process.env.REDIS_DB_NUM ?? 3,
+  DATABASE_NUM: parseInt(process.env.REDIS_DB_NUM) ?? 3,
 };
 
 const _env = {
