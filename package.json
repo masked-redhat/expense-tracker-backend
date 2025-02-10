@@ -32,8 +32,8 @@
     "dependencies": {
         "bcryptjs": "latest",
         "cookie-parser": "latest",
+        "expense-tracker": "file:",
         "express": "latest",
-        "express-setup": "file:",
         "jsonwebtoken": "latest",
         "mongoose": "latest",
         "multer": "latest",
