@@ -5,6 +5,7 @@ import _env from "../constants/env.js"; // env variables
 import r from "../routes/router.js";
 import auth from "../middlewares/auth.js";
 import "../utils/response.js"; // predefined responses
+import upload from "../middlewares/upload.js";
 
 const app = express();
 
@@ -12,6 +13,8 @@ const app = express();
 app.use(express.json()); // for raw json body to be parsed
 app.use(cookieParser()); // for cookies
 app.use(helmet()); // many middleware functions
+
+app.use(upload.none()); // form fields data
 
 app.use(auth.verify); // authentication middleware
 
