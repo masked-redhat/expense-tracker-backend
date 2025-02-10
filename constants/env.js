@@ -1,0 +1,29 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+const APP = {
+  HOST: process.env.HOST || "localhost",
+  PORT: process.env.PORT || 3000,
+  PUBLIC: "./" + "public", // change according to your folder name
+};
+
+// Mongodb as nosql db
+const MONGODB = {
+  CLIENT: "Mongo DB",
+  URI: process.env.MONGO_DB_URI,
+};
+
+// Redis as cache
+const REDIS = {
+  CLIENT: "Redis",
+  URI: process.env.REDIS_DB_URI,
+  DATABASE_NUM: process.env.REDIS_DB_NUM ?? 3,
+};
+
+const _env = {
+  app: APP,
+  db: MONGODB,
+  cache: REDIS,
+};
+
+export default _env;

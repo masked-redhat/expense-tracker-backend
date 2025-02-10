@@ -1,0 +1,36 @@
+{
+    "name": "express-setup",
+    "version": "1.0.0",
+    "description": "express backend setup for projects with no sql and sql databases",
+    "license": "ISC",
+    "author": "masked-redhat",
+    "type": "module",
+    "main": "app.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "npm i",
+        "dev": "nodemon --signal SIGTERM app.js",
+        "start": "node app.js",
+        "redis": "node ./scripts/start_redis.js",
+        "rdev": "npm run redis && npm run dev",
+        "rstart": "npm run redis && npm run start"
+    },
+    "dependencies": {
+        "bcryptjs": "latest",
+        "cookie-parser": "latest",
+        "express": "latest",
+        "express-setup": "file:",
+        "jsonwebtoken": "latest",
+        "mongoose": "latest",
+        "multer": "latest",
+        "nodemailer": "latest",
+        "redis": "latest",
+        "socket.io": "latest",
+        "uuid": "latest"
+    },
+    "devDependencies": {
+        "dotenv": "latest",
+        "helmet": "latest",
+        "nodemon": "latest"
+    }
+}
