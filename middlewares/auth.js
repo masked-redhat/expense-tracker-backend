@@ -9,7 +9,7 @@ export const SID = "sessionId";
  * gives a session Id that can be setup in the cookies of user
  * @param {String} username
  * @param {String} userId mongodb _id of user
- * @returns {String} session Id
+ * @returns {Promise<String>} session Id
  */
 const setupAuth = async (username, userId) => {
   const user = { id: userId, username };
@@ -34,7 +34,7 @@ const getUserFromSession = async (sessionId) => {
 
   const jwtToken = await client.get(sessionId);
 
-  if (strToken === null) return null;
+  if (jwtToken === null) return null;
 
   try {
     const user = jwt.verify(jwtToken, _env.jwt.SECRET); // get user
