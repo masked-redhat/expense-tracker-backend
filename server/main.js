@@ -16,6 +16,7 @@ app.use(helmet()); // many middleware functions
 
 app.use(upload.none()); // form fields data
 
+app.use("/login", r.login);
 app.use(auth.verify); // authentication middleware
 
 // public folder

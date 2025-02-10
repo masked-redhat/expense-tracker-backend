@@ -1,5 +1,7 @@
-// import all your routes here than put them in _routes
+import { LoginRouter } from "./login.js";
 
-const _routes = {};
+const _routes = {
+  login: LoginRouter,
+};
 
 export default _routes;
