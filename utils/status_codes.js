@@ -101,4 +101,4 @@ const CODES = {
   },
 };
 
-export default CODES;
+export const statusCode = CODES;

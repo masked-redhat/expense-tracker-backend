@@ -20,10 +20,16 @@ const REDIS = {
   DATABASE_NUM: parseInt(process.env.REDIS_DB_NUM) ?? 3,
 };
 
+// JSON Web Token
+const JWT = {
+  SECRET: process.env.SECRET ?? "supersecret",
+};
+
 const _env = {
   app: APP,
   db: MONGODB,
   cache: REDIS,
+  jwt: JWT,
 };
 
 export default _env;

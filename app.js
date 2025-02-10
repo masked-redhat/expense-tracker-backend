@@ -1,5 +1,5 @@
 import _env from "./constants/env.js"; // env variables
-import _connect from "./db/connect.js";
+import _connect, { client } from "./db/connect.js";
 import _close from "./db/close.js";
 import server from "./server/socket.js";
 
