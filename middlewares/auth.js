@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import _env from "../constants/env.js";
 import { client } from "../db/connect.js";
 import { v4 as uuidv4 } from "uuid";
-import { statusCode as c } from "../utils/status_codes.js";
 
 export const SID = "sessionId";
 
@@ -59,8 +58,7 @@ const verifyAuth = async (req, res, next) => {
 
   const user = await getUserFromSession(sessionId);
 
-  if (user === null)
-    res.status(c.UNAUTHORIZED).json({ message: "Invalid Session ID" });
+  if (user === null) res.unauth("Invalid Session ID");
   else {
     req.user = user; // set user
 

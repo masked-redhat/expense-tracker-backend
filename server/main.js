@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import _env from "../constants/env.js"; // env variables
 import r from "../routes/router.js";
 import auth from "../middlewares/auth.js";
+import "../utils/response.js"; // predefined responses
 
 const app = express();
 
