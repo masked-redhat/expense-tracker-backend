@@ -6,8 +6,8 @@ import server from "./server/socket.js";
 const port = _env.app.PORT;
 
 // Connect to databases
-// await _connect.db();
-// await _connect.cache();
+await _connect.db();
+await _connect.cache();
 
 server.listen(port, _env.app.HOST, () => {
   console.log(`Application started on http://${_env.app.HOST}:${port}`);
@@ -20,8 +20,8 @@ server.listen(port, _env.app.HOST, () => {
     console.debug("Gracefully closing the application");
 
     server.close();
-    // await _close.db();
-    // await _close.cache();
+    await _close.db();
+    await _close.cache();
 
     console.debug("Application closed!");
   };
