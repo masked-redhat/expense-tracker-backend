@@ -31,6 +31,8 @@ const setupAuth = async (username, userId) => {
  *
  */
 const getUserFromSession = async (sessionId) => {
+  if (typeof sessionId !== "string") return null; // no user if sessionId not string
+
   const jwtToken = await client.get(sessionId);
 
   if (strToken === null) return null;
@@ -58,7 +60,7 @@ const verifyAuth = async (req, res, next) => {
   const user = await getUserFromSession(sessionId);
 
   if (user === null)
-    res.status(c.UNAUTHORIZED).json({ message: "No session Id like that" });
+    res.status(c.UNAUTHORIZED).json({ message: "Invalid Session ID" });
   else {
     req.user = user; // set user
 
