@@ -3,6 +3,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import _env from "../constants/env.js"; // env variables
 import r from "../routes/router.js";
+import auth from "../middlewares/auth.js";
 
 const app = express();
 
@@ -10,6 +11,8 @@ const app = express();
 app.use(express.json()); // for raw json body to be parsed
 app.use(cookieParser()); // for cookies
 app.use(helmet()); // many middleware functions
+
+app.use(auth.verify); // authentication middleware
 
 // public folder
 app.use(express.static(_env.app.PUBLIC));
@@ -20,8 +23,5 @@ app.disable("x-powered-by");
 app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
-
-// use of _routes
-// app.use("/custom_route", r.customRouter)
 
 export default app;
