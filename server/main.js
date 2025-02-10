@@ -29,4 +29,6 @@ app.get("/", (req, res) => {
   res.sendFile("index.html");
 });
 
+app.use("/logout", r.logout);
+
 export default app;

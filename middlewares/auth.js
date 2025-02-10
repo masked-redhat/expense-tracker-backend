@@ -61,6 +61,7 @@ const verifyAuth = async (req, res, next) => {
   if (user === null) res.unauth("Invalid Session ID");
   else {
     req.user = user; // set user
+    req.sessionId = sessionId; // set session Id
 
     next(); // to the next handler
   }
