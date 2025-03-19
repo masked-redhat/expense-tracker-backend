@@ -4,8 +4,14 @@ import helmet from "helmet";
 import env from "./env/env.config.js"; // env file
 import { AppRouter } from "./routes/router.js";
 import shutdown from "./utils/shutdown.js";
+import connectToRedis from "./db/connect/redis.js";
+import connectToMongo from "./db/connect/mongo.js";
 
 const app = express();
+
+// connect to databases
+await connectToRedis();
+await connectToMongo();
 
 app.use(express.json());
 app.use(cookieParser());
