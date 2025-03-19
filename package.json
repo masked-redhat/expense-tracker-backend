@@ -1,0 +1,32 @@
+{
+    "name": "expense_tracker_backend",
+    "version": "1.0.0",
+    "description": "backend for expense tracker",
+    "homepage": "https://github.com/masked-redhat/expense-tracker#readme",
+    "bugs": {
+        "url": "https://github.com/masked-redhat/expense-tracker/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/masked-redhat/expense-tracker.git"
+    },
+    "license": "ISC",
+    "author": "masked-redhat",
+    "type": "module",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon --signal SIGINT app.js"
+    },
+    "dependencies": {
+        "bcryptjs": "^3.0.2",
+        "cookie-parser": "^1.4.7",
+        "express": "^4.21.2",
+        "helmet": "^8.1.0",
+        "mongoose": "^8.12.1"
+    },
+    "devDependencies": {
+        "dotenv": "^16.4.7",
+        "nodemon": "^3.1.9"
+    }
+}
