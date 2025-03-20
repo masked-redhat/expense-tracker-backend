@@ -7,7 +7,10 @@ const userSchema = new Schema({
     unique: true,
     required: true,
   },
-  password: String,
+  password: {
+    type: String,
+    required: true,
+  },
   createdAt: {
     type: Number,
     default: Date.now,
