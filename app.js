@@ -6,6 +6,7 @@ import { AppRouter } from "./routes/router.js";
 import shutdown from "./utils/shutdown.js";
 import connectToRedis from "./db/connect/redis.js";
 import connectToMongo from "./db/connect/mongo.js";
+import handleBody from "./middlewares/body.js";
 
 const app = express();
 
@@ -18,6 +19,8 @@ app.use(cookieParser());
 app.use(helmet({ contentSecurityPolicy: false })); // no csp at http
 
 app.disable("x-powered-by"); // prevent fingerprinting
+
+app.use(handleBody);
 
 app.use("/", AppRouter); // main application router
 
