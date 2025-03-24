@@ -45,7 +45,7 @@ class ReqBody {
     return nulFields;
   };
 
-  areNuldefined = (fields = []) => {
+  allNuldefined = (fields = []) => {
     fields = strToArray(fields);
     return fields.every((f) => this.isNuldefined(f));
   };
