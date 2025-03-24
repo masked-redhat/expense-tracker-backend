@@ -1,20 +1,10 @@
 import { Schema, model } from "mongoose";
+import types from "../constants/types.js";
 
 const userSchema = new Schema({
-  username: {
-    index: true,
-    type: String,
-    unique: true,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Number,
-    default: Date.now,
-  },
+  username: types.INDEXED(types.UNIQUE_STR_REQ),
+  password: types.STR_REQ,
+  createdAt: { type: types.NUMBER, default: Date.now },
 });
 
 const User = model("User", userSchema);
