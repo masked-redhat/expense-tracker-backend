@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import types from "../constants/types.js";
 
-const transactionTypes = {
+export const transactionTypes = {
   EXPENSE: "EXPENSE",
   INCOME: "INCOME",
 };
