@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit)
-      .select("-_id -__v");
+      .select("-__v");
 
     res.ok("Transactions", { transactions, nextPage: page + 1 });
   } catch (err) {
@@ -56,6 +56,35 @@ router.post("/", async (req, res) => {
     await user.save({ session: t.session });
 
     res.created("Transacted", { transaction: newTransaction });
+    await t.commit();
+  } catch (err) {
+    await t.rollback();
+    console.log(err);
+    res.serverError();
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  const username = req.username;
+  const id = req.params.id;
+
+  const t = await dbTransaction();
+
+  try {
+    const transaction = await Transaction.findById(id);
+    if (transaction.username !== username) {
+      await t.rollback();
+      return res.forbidden("Not yours");
+    }
+
+    const { value, type } = transaction;
+    await Transaction.deleteOne({ _id: id }, { session: t.session });
+
+    const user = await User.findOne({ username });
+    user.currentBalance -= (isIncome(type) ? 1 : -1) * value;
+    await user.save({ session: t.session });
+
+    res.ok("Deletion successfull");
     await t.commit();
   } catch (err) {
     await t.rollback();
