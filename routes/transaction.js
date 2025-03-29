@@ -25,7 +25,10 @@ router.get("/", async (req, res) => {
       .limit(limit)
       .select("-__v");
 
-    res.ok("Transactions", { transactions, nextPage: page + 1 });
+    res.ok("Transactions", {
+      transactions,
+      nextPage: transactions.length <= transactionPerPage ? null : page + 1,
+    });
   } catch (err) {
     console.log(err);
     res.serverError();
@@ -47,15 +50,21 @@ router.post("/", async (req, res) => {
   try {
     const user = await User.findOne({ username }, null, { session: t.session });
 
-    const newTransaction = await Transaction.insertMany(
+    let [newTransaction] = await Transaction.create(
       [{ ...body.data, username }],
       { session: t.session }
     );
 
+    newTransaction = newTransaction.toObject();
+    delete newTransaction.__v;
+
     user.currentBalance += (isIncome(type) ? 1 : -1) * value;
     await user.save({ session: t.session });
 
-    res.created("Transacted", { transaction: newTransaction });
+    res.created("Transacted", {
+      transaction: newTransaction,
+      newBalance: user.currentBalance,
+    });
     await t.commit();
   } catch (err) {
     await t.rollback();
