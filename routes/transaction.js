@@ -3,8 +3,10 @@ import { loggedIn } from "../middlewares/auth/auth.js";
 import Transaction from "../models/Transaction.js";
 import dbTransaction from "../db/transactions/transaction.js";
 import User from "../models/User.js";
-import { isIncome, isNumber } from "../utils/checks.js";
+import { isArray, isIncome, isNumber } from "../utils/checks.js";
 import { transactionPerPage } from "../constants/pagination.js";
+
+const num = (value) => (isIncome(value) ? 1 : -1);
 
 const router = Router();
 
@@ -58,7 +60,7 @@ router.post("/", async (req, res) => {
     newTransaction = newTransaction.toObject();
     delete newTransaction.__v;
 
-    user.currentBalance += (isIncome(type) ? 1 : -1) * value;
+    user.currentBalance += num(type) * value;
     await user.save({ session: t.session });
 
     res.created("Transacted", {
@@ -73,12 +75,44 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/", async (req, res) => {
+  const username = req.username;
+  const ids = req.body.get("ids", []);
+  if (!isArray(ids)) return res.failure("Bad format for ids");
+
+  let balanceToBeDeducted = 0; // Changed from `const` to `let`
+
+  const t = await dbTransaction();
+  try {
+    const deletedDocs = await Transaction.find({ _id: { $in: ids } }).session(
+      t.session
+    );
+
+    await Transaction.deleteMany({ _id: { $in: ids } }, { session: t.session });
+
+    for (const d of deletedDocs) {
+      balanceToBeDeducted += num(d.type) * d.value;
+    }
+
+    const user = await User.findOne({ username }).session(t.session);
+    user.currentBalance -= balanceToBeDeducted;
+
+    await user.save({ session: t.session });
+
+    await t.commit();
+    res.ok("Deletion Successful", { newBalance: user.currentBalance });
+  } catch (err) {
+    await t.rollback();
+    console.log(err);
+    res.serverError();
+  }
+});
+
 router.delete("/:id", async (req, res) => {
   const username = req.username;
   const id = req.params.id;
 
   const t = await dbTransaction();
-
   try {
     const transaction = await Transaction.findById(id);
     if (transaction.username !== username) {

@@ -6,3 +6,5 @@ export const isIncome = (field, obj = null) => {
   if (obj === null) return field === transactionTypes.INCOME;
   return obj.get(field);
 };
+
+export const isArray = (value) => Array.isArray(value);
