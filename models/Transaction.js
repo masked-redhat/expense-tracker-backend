@@ -11,7 +11,6 @@ const transactionSchema = new Schema({
   value: types.NUM_REQ,
   type: { type: types.STRING, enum: Object.values(transactionTypes) },
   message: types.STRING,
-  currentBalance: types.NUM_REQ,
   createdAt: { type: types.NUMBER, default: Date.now },
 });
 
