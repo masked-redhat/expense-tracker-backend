@@ -20,7 +20,7 @@ router.delete("/", async (req, res) => {
     await User.deleteOne({ username }, { session: t.session });
     await Transaction.deleteMany({ username }, { session: t.session });
 
-    res.redirect("/logout");
+    res.ok("Account deleted");
     await t.commit();
   } catch (err) {
     await t.rollback();
