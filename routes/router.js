@@ -11,7 +11,7 @@ router.use("/transaction", TransactionRouter);
 router.use("/admin", AdminRouter);
 
 router.get("/", (_, res) => {
-  res.send("hello");
+  res.send(_.username);
 });
 
 export const AppRouter = router;
