@@ -1,4 +1,5 @@
 import { client } from "../../db/connect/redis.js";
+import User from "../../models/User.js";
 import { hashSHA256 } from "../../utils/hash.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -17,6 +18,7 @@ export const setupAuth = async (username) => {
 };
 
 export const validateAuth = async (userToken) => {
+  if (userToken === undefined) return { valid: false };
   const username = await client.get(userToken);
 
   const result = { valid: username !== null, username };
@@ -28,10 +30,13 @@ export const auth = async (req, _, next) => {
 
   const { valid, username } = await validateAuth(userToken);
 
-  if (valid) {
+  const user = await User.findOne({ username });
+
+  if (valid && user !== null) {
     req.loggedIn = true;
     req.username = username;
     req.userToken = userToken;
+    req.user = user;
   } else req.loggedIn = false;
 
   next();
