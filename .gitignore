@@ -6,3 +6,6 @@ node_modules
 
 # python script files
 *.py
+
+# python script output
+pyout/*.txt
