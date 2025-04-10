@@ -41,7 +41,7 @@ router.post("/signup", async (req, res) => {
     const [username, password] = body.bulkGet("username password");
 
     let available = await isUsernameAvailable(username);
-    if (available) return res.conflict("username already exist");
+    if (!available) return res.conflict("username already exist");
 
     const user = await User.create({ username, password });
 
