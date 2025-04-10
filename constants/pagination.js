@@ -1,1 +1,1 @@
-export const transactionPerPage = 3;
+export const transactionPerPage = 30;
