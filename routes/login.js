@@ -2,6 +2,7 @@ import { Router } from "express";
 import User from "../models/User.js";
 import { loggedIn, setupAuth } from "../middlewares/auth/auth.js";
 import { client } from "../db/connect/redis.js";
+import { isUsernameAvailable } from "../utils/username.js";
 
 const router = Router();
 
@@ -39,10 +40,10 @@ router.post("/signup", async (req, res) => {
 
     const [username, password] = body.bulkGet("username password");
 
-    let user = await User.findOne({ username });
-    if (user !== null) return res.conflict("username already exist");
+    let available = await isUsernameAvailable(username);
+    if (available) return res.conflict("username already exist");
 
-    user = await User.create({ username, password });
+    const user = await User.create({ username, password });
 
     const userToken = await setupAuth(user.username);
 
