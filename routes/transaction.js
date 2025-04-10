@@ -16,7 +16,10 @@ router.get("/", async (req, res) => {
   const username = req.username;
   const body = req.query;
 
-  const page = isNumber(body.get("page")) ? body.get("page") : 1;
+  const page =
+    isNumber(body.get("page")) && Number(body.get("page")) >= 1
+      ? Number(body.get("page"))
+      : 1;
 
   const [offset, limit] = [(page - 1) * transactionPerPage, transactionPerPage];
 
@@ -29,7 +32,7 @@ router.get("/", async (req, res) => {
 
     res.ok("Transactions", {
       transactions,
-      nextPage: transactions.length <= transactionPerPage ? null : page + 1,
+      nextPage: transactions.length < transactionPerPage ? null : page + 1,
     });
   } catch (err) {
     console.log(err);

@@ -15,4 +15,8 @@ router.use("/", OtherRouter);
 
 router.use("/admin", AdminRouter);
 
+router.get("/check-token", loggedIn, async (req, res) => {
+  res.ok("Valid Token");
+});
+
 export const AppRouter = router;
