@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isUsernameAvailable } from "../utils/username";
+import { isUsernameAvailable } from "../utils/username.js";
 
 const router = Router();
 
